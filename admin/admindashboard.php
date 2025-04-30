@@ -13,7 +13,7 @@
   <div class="sidebar">
     <h2>Admin Panel</h2>
     <a href="admindashboard.php">Dashboard</a>
-    <a href="manage users/manageusers.html">Manage Users</a>
+    <a href="manage users/manageusers.php">Manage Users</a>
     <a href="#">Barangays</a>
     <a href="#">Reports</a>
     <a href="#">Settings</a>

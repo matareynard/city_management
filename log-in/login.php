@@ -30,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         } elseif (password_verify($password, $hashed_password)) {
             $_SESSION["user_id"] = $user_id;
             $_SESSION["role"] = $role;
-            header("Location: ../admin/admindashboard.html");
+            header("Location: ../admin/admindashboard.php");
             exit();
         } else {
             echo "Invalid password.";
