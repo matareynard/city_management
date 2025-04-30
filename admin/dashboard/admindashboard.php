@@ -5,24 +5,27 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Admin Dashboard - City Management System</title>
+  <title>City Management Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <link rel="stylesheet" href="admindashboard.css" />
 </head>
 
 <body>
+
   <div class="sidebar">
     <h2>Admin Panel</h2>
-    <a href="admindashboard.php">Dashboard</a>
-    <a href="manage users/manageusers.php">Manage Users</a>
-    <a href="#">Barangays</a>
-    <a href="#">Reports</a>
-    <a href="#">Settings</a>
-    <a href="#">Logout</a>
+    <a href="admindashboard.php"><i class="fa fa-chart-line"></i> Dashboard</a>
+    <a href="manage users/manageusers.php"><i class="fa fa-users"></i> Manage Users</a>
+    <a href="#"><i class="fa fa-map-marker-alt"></i> Barangays</a>
+    <a href="#"><i class="fa fa-file-alt"></i> Reports</a>
+    <a href="#"><i class="fa fa-cog"></i> Settings</a>
+    <a href="#"><i class="fa fa-sign-out-alt"></i> Logout</a>
   </div>
 
   <div class="main">
     <div class="header">
       <h1>Welcome, Admin</h1>
+      <button class="btn-new-report">New Report</button>
     </div>
 
     <div class="cards">
@@ -40,6 +43,7 @@
       </div>
     </div>
   </div>
+
 </body>
 
 </html>
