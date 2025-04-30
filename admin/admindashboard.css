@@ -79,3 +79,31 @@ body {
   margin-top: 10px;
   color: #007bff;
 }
+
+
+.section {
+  margin-top: 40px;
+}
+
+.section h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.chart-container,
+#calendar,
+#map {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+#calendar {
+  margin-top: 10px;
+}
+
+#map {
+  height: 400px;
+  margin-top: 10px;
+}
