@@ -1,4 +1,3 @@
-<!-- <?php include 'admindashboard_data.php'; ?> -->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,9 +6,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>City Management Dashboard</title>
 
-  <!-- Style & Icons -->
+  <!-- Styles -->
+  <link rel="stylesheet" href="admindashboard.css?v=1.2" />
   <link rel="stylesheet" href="admindashboard.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
 
   <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -18,28 +18,60 @@
   <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.js"></script>
 
-  <!-- Leaflet Map -->
+  <!-- Leaflet -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 
 <body>
 
-  <div class="sidebar">
-    <h2>Admin Panel</h2>
-    <a href="admindashboard.php"><i class="fa fa-chart-line"></i> Dashboard</a>
-    <a href="manage users/manageusers.php"><i class="fa fa-users"></i> Manage Users</a>
-    <a href="#"><i class="fa fa-map-marker-alt"></i> Barangays</a>
-    <a href="#"><i class="fa fa-file-alt"></i> Reports</a>
-    <a href="#"><i class="fa fa-cog"></i> Settings</a>
-    <a href="#"><i class="fa fa-sign-out-alt"></i> Logout</a>
-  </div>
+  <!-- Sidebar -->
+  <nav class="sidebar close">
+    <header>
+      <div class="image-text">
+        <span class="image">
+          <!-- <img src="logo.png" alt=""> -->
+        </span>
+        <div class="text logo-text">
+          <span class="name">Admin Panel</span>
+          <span class="profession">City Admin</span>
+        </div>
+      </div>
+      <i class='bx bx-chevron-right toggle'></i>
+    </header>
 
-  <div class="main">
-    <div class="header">
-      <h1>Welcome, Admin</h1>
-      <button class="btn-new-report">New Report</button>
+    <div class="menu-bar">
+      <div class="menu">
+        <li class="search-box">
+          <i class='bx bx-search icon'></i>
+          <input type="text" placeholder="Search...">
+        </li>
+        <ul class="menu-links">
+          <li class="nav-link"><a href="admindashboard.php"><i class='bx bx-home-alt icon'></i><span class="text nav-text">Dashboard</span></a></li>
+          <li class="nav-link"><a href="manage users/manageusers.php"><i class='bx bx-user icon'></i><span class="text nav-text">Manage Users</span></a></li>
+          <li class="nav-link"><a href="#"><i class='bx bx-map icon'></i><span class="text nav-text">Barangays</span></a></li>
+          <li class="nav-link"><a href="#"><i class='bx bx-file icon'></i><span class="text nav-text">Reports</span></a></li>
+          <li class="nav-link"><a href="#"><i class='bx bx-cog icon'></i><span class="text nav-text">Settings</span></a></li>
+        </ul>
+      </div>
+      <div class="bottom-content">
+        <li><a href="#"><i class='bx bx-log-out icon'></i><span class="text nav-text">Logout</span></a></li>
+        <li class="mode">
+          <div class="sun-moon">
+            <i class='bx bx-moon icon moon'></i>
+            <i class='bx bx-sun icon sun'></i>
+          </div>
+          <span class="mode-text text">Dark mode</span>
+          <div class="toggle-switch"><span class="switch"></span></div>
+        </li>
+      </div>
     </div>
+  </nav>
+
+  <!-- Main Content -->
+  <section class="home">
+    <div class="text">Welcome, Admin</div>
+    <button class="btn-new-report">New Report</button>
 
     <div class="cards">
       <div class="card">
@@ -55,6 +87,10 @@
         <p><?php echo $stats['Residents']; ?></p>
       </div>
     </div>
+  </section>
+
+  <!-- Sidebar JS -->
+  <script src="sidebar.js"></script>
 
 </body>
 
