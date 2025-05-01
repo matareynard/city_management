@@ -10,17 +10,6 @@
   <link rel="stylesheet" href="admindashboard.css?v=1.2" />
   <link rel="stylesheet" href="admindashboard.css" />
   <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
-
-  <!-- Chart.js -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-  <!-- FullCalendar -->
-  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.js"></script>
-
-  <!-- Leaflet -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 
 <body>
@@ -88,10 +77,9 @@
       </div>
     </div>
   </section>
-
-  <!-- Sidebar JS -->
-  <script src="sidebar.js"></script>
-
 </body>
+
+<!-- Sidebar JS -->
+<script src="sidebar.js"></script>
 
 </html>

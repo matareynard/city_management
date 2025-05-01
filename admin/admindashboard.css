@@ -79,6 +79,7 @@ body.dark {
   font-size: 20px;
   color: var(--text-color);
   transition: var(--tran-03);
+  
 }
 
 .sidebar .text {
@@ -141,6 +142,7 @@ header .image-text .profession {
   justify-content: center;
   cursor: pointer;
   transition: var(--tran-05);
+  
 }
 
 body.dark .sidebar header .toggle {
@@ -217,11 +219,13 @@ body.dark .sidebar li a:hover .text {
   background-color: var(--primary-color-light);
   position: relative;
   transition: var(--tran-05);
+  
 }
 
 .menu-bar .mode .sun-moon {
   height: 50px;
   width: 60px;
+
 }
 
 .mode .sun-moon i {
@@ -250,6 +254,7 @@ body.dark .mode .sun-moon i.moon {
   justify-content: center;
   border-radius: 6px;
   cursor: pointer;
+  
 }
 
 .toggle-switch .switch {
@@ -259,6 +264,7 @@ body.dark .mode .sun-moon i.moon {
   border-radius: 25px;
   background-color: var(--toggle-color);
   transition: var(--tran-05);
+  
 }
 
 .switch::before {
@@ -272,6 +278,7 @@ body.dark .mode .sun-moon i.moon {
   transform: translateY(-50%);
   background-color: var(--sidebar-color);
   transition: var(--tran-04);
+
 }
 
 body.dark .switch::before {
@@ -281,7 +288,7 @@ body.dark .switch::before {
 .home {
   position: absolute;
   top: 0;
-  left: 250px;
+  left: 300px;
   height: 100vh;
   width: calc(100% - 250px);
   background-color: var(--body-color);
@@ -296,7 +303,7 @@ body.dark .switch::before {
 }
 
 .sidebar.close ~ .home {
-  left: 78px;
+  left: 150px;
   width: calc(100% - 78px);
 }
 
