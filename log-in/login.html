@@ -2,68 +2,43 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login - City Management System</title>
     <link rel="stylesheet" href="login.css" />
+    <!-- Use the Glassmorphism CSS -->
   </head>
   <body>
-    <div class="login-wrap">
-      <div class="login-html">
-        <input id="tab-1" type="radio" name="tab" class="sign-in" checked />
-        <label for="tab-1" class="tab">Sign In</label>
-        <input id="tab-2" type="radio" name="tab" class="sign-up" />
-        <label for="tab-2" class="tab">Sign Up</label>
+    <div class="wrapper">
+      <form action="login.php" method="POST">
+        <h2>Login</h2>
 
-        <div class="login-form">
-          <!-- Sign In Form -->
-          <form action="login.php" method="POST" class="sign-in-htm">
-            <div class="group">
-              <label for="user" class="label">Username</label>
-              <input
-                id="user"
-                name="username"
-                type="text"
-                class="input"
-                required
-              />
-            </div>
-            <div class="group">
-              <label for="pass" class="label">Password</label>
-              <input
-                id="pass"
-                name="password"
-                type="password"
-                class="input"
-                required
-              />
-            </div>
-            <div class="group">
-              <input id="check" type="checkbox" class="check" checked />
-              <label for="check"
-                ><span class="icon"></span> Keep me signed in</label
-              >
-            </div>
-            <div class="group">
-              <input type="submit" class="button" value="Sign In" />
-            </div>
-            <div class="hr"></div>
-            <div class="foot-lnk">
-              <a href="#">Forgot Password?</a>
-            </div>
-          </form>
-
-          <!-- Sign Up Redirect -->
-          <div class="sign-up-htm">
-            <p class="note">
-              <strong>Note:</strong> Officials must
-              <a href="../register/register.html">sign up here</a>.
-            </p>
-            <div class="hr"></div>
-            <div class="foot-lnk">
-              <label for="tab-1">Already a member?</label>
-            </div>
-          </div>
+        <div class="input-field">
+          <input type="text" name="username" required />
+          <label>Enter your username</label>
         </div>
-      </div>
+
+        <div class="input-field">
+          <input type="password" name="password" required />
+          <label>Enter your password</label>
+        </div>
+
+        <div class="forget">
+          <label for="remember">
+            <input type="checkbox" id="remember" />
+            <p>Remember me</p>
+          </label>
+          <a href="#">Forgot password?</a>
+        </div>
+
+        <button type="submit">Log In</button>
+
+        <div class="register">
+          <p>
+            Don't have an account?
+            <a href="../register/register.html">Register</a>
+          </p>
+        </div>
+      </form>
     </div>
   </body>
 </html>
