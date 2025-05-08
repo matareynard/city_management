@@ -1,19 +1,30 @@
-const body = document.querySelector('body'),
-sidebar = body.querySelector('nav.sidebar'),
-toggle = body.querySelector(".toggle"),
-searchBtn = body.querySelector(".search-box"),
-modeSwitch = body.querySelector(".toggle-switch"),
-modeText = body.querySelector(".mode-text");
+const body = document.querySelector('body');
+const sidebar = document.querySelector('.sidebar');
+const toggle = document.querySelector('.toggle');
+const modeSwitch = document.querySelector('.toggle-switch');
+const modeText = document.querySelector('.mode-text');
 
-toggle.addEventListener("click", () => {
-sidebar.classList.toggle("close");
+toggle.addEventListener('click', () => {
+  sidebar.classList.toggle('close');
 });
 
-searchBtn.addEventListener("click", () => {
-sidebar.classList.remove("close");
+modeSwitch.addEventListener('click', () => {
+  body.classList.toggle('dark');
+
+  if (body.classList.contains('dark')) {
+    modeText.innerText = 'Light mode';
+  } else {
+    modeText.innerText = 'Dark mode';
+  }
 });
 
-modeSwitch.addEventListener("click", () => {
-body.classList.toggle("dark");
-modeText.innerText = body.classList.contains("dark") ? "Light mode" : "Dark mode";
+// Add hover effect to cards
+const cards = document.querySelectorAll('.card');
+cards.forEach(card => {
+  card.addEventListener('mouseenter', () => {
+    card.style.transform = 'translateY(-5px)';
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = 'translateY(0)';
+  });
 });

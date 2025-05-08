@@ -1,45 +1,54 @@
 <?php
 session_start();
+require_once '../city_management/database/database.php'; // adjust path
 
-// Database connection
-$conn = new mysqli("localhost", "root", "", "city_management");
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $username = trim($_POST['username']);
+    $password = trim($_POST['password']);
+    $role = trim($_POST['role']);
 
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-// Handle form submission
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    // Sanitize input
-    $username = trim($_POST["username"]);
-    $password = $_POST["password"];
-
-    // Prepare and execute SQL statement
-    $stmt = $conn->prepare("SELECT id, password_hash, role FROM users WHERE username = ?");
-    $stmt->bind_param("s", $username);
-    $stmt->execute();
-    $stmt->store_result();
-
-    if ($stmt->num_rows > 0) {
-        $stmt->bind_result($user_id, $hashed_password, $role);
-        $stmt->fetch();
-
-        if ($role !== 'admin') {
-            echo "Only admins can log in directly. Please sign up first.";
-        } elseif (password_verify($password, $hashed_password)) {
-            $_SESSION["user_id"] = $user_id;
-            $_SESSION["role"] = $role;
-            header("Location: ../admin/admindashboard.php");
-            exit();
-        } else {
-            echo "Invalid password.";
-        }
-    } else {
-        echo "User not found.";
+    if (empty($username) || empty($password) || empty($role)) {
+        die('Please fill in all fields.');
     }
 
-    $stmt->close();
-}
+    $db = new Database();
+    $conn = $db->connect();
 
-$conn->close();
+    try {
+        // Find the user by username and role
+        $stmt = $conn->prepare("SELECT * FROM users WHERE username = :username AND role = :role AND status = 'active' LIMIT 1");
+        $stmt->execute([
+            'username' => $username,
+            'role' => $role
+        ]);
+
+        $user = $stmt->fetch();
+
+        if ($user && password_verify($password, $user['password_hash'])) {
+            // Login success
+            $_SESSION['user_id'] = $user['id'];
+            $_SESSION['username'] = $user['username'];
+            $_SESSION['role'] = $user['role'];
+
+            if ($user['role'] === 'admin') {
+                header('Location: admindashboard.html');
+            } else if ($user['role'] === 'resident') {
+                header('Location: user.html');
+            } else if ($user['role'] === 'city_official') {
+                // Add a redirect if needed
+                header('Location: cityofficial.html');
+            } else if ($user['role'] === 'barangay_official') {
+                // Add a redirect if needed
+                header('Location: barangayofficial.html');
+            } else {
+                echo "Unknown role.";
+            }
+            exit;
+        } else {
+            echo "Invalid credentials or role.";
+        }
+    } catch (PDOException $e) {
+        error_log("Login Error: " . $e->getMessage());
+        echo "An error occurred. Please try again later.";
+    }
+}
