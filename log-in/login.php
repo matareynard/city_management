@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once '../city_management/database/database.php'; // adjust path
+require_once '../database/database.php'; // adjust path
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = trim($_POST['username']);
@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $conn = $db->connect();
 
     try {
-        // Find the user by username and role
+        // Find the user by username, role, and active status
         $stmt = $conn->prepare("SELECT * FROM users WHERE username = :username AND role = :role AND status = 'active' LIMIT 1");
         $stmt->execute([
             'username' => $username,
@@ -25,25 +25,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $user = $stmt->fetch();
 
         if ($user && password_verify($password, $user['password_hash'])) {
-            // Login success
-            $_SESSION['user_id'] = $user['id'];
-            $_SESSION['username'] = $user['username'];
-            $_SESSION['role'] = $user['role'];
+            // Check if admin exists and redirect to the dashboard
+            if ($role === 'admin') {
+                // Check if there is at least one active admin
+                $adminCheckStmt = $conn->prepare("SELECT * FROM users WHERE role = 'admin' AND status = 'active' LIMIT 1");
+                $adminCheckStmt->execute();
+                $admin = $adminCheckStmt->fetch();
 
-            if ($user['role'] === 'admin') {
-                header('Location: admindashboard.html');
-            } else if ($user['role'] === 'resident') {
-                header('Location: user.html');
-            } else if ($user['role'] === 'city_official') {
-                // Add a redirect if needed
-                header('Location: cityofficial.html');
-            } else if ($user['role'] === 'barangay_official') {
-                // Add a redirect if needed
-                header('Location: barangayofficial.html');
+                if ($admin) {
+                    // Admin exists, login successful
+                    $_SESSION['user_id'] = $user['id'];
+                    $_SESSION['username'] = $user['username'];
+                    $_SESSION['role'] = $user['role'];
+
+                    header('Location: admindashboard.html');
+                    exit;
+                } else {
+                    echo "No active admin found.";
+                }
             } else {
-                echo "Unknown role.";
+                // Other role handling
+                $_SESSION['user_id'] = $user['id'];
+                $_SESSION['username'] = $user['username'];
+                $_SESSION['role'] = $user['role'];
+
+                if ($role === 'resident') {
+                    header('Location: user.html');
+                } else if ($role === 'city_official') {
+                    header('Location: cityofficial.html');
+                } else if ($role === 'barangay_official') {
+                    header('Location: barangayofficial.html');
+                } else {
+                    echo "Unknown role.";
+                }
+                exit;
             }
-            exit;
         } else {
             echo "Invalid credentials or role.";
         }

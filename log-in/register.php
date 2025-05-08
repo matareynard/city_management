@@ -1,18 +1,23 @@
 <?php
-require_once '../city_management/database/database.php'; // Adjust path if needed
+require_once '../database/database.php'; // Adjust path if needed
+
+header('Content-Type: application/json');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  $name = trim($_POST['fullname']); // updated here
+  $name = trim($_POST['name']);
   $email = trim($_POST['email']);
   $username = trim($_POST['username']);
   $password = trim($_POST['password']);
   $role = trim($_POST['role']);
 
   if (empty($name) || empty($email) || empty($username) || empty($password) || empty($role)) {
-    die('All fields are required.');
+    echo json_encode([
+      'success' => false,
+      'message' => 'All fields are required.'
+    ]);
+    exit;
   }
 
-  // Hash the password
   $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
   $db = new Database();
@@ -26,10 +31,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       'username' => $username
     ]);
     if ($stmt->fetch()) {
-      die('Email or username already registered.');
+      echo json_encode([
+        'success' => false,
+        'message' => 'Email or username already registered.'
+      ]);
+      exit;
     }
 
-    // Insert the new user
+    // Insert new user
     $stmt = $conn->prepare("
             INSERT INTO users (name, email, username, password_hash, role, status, created_at)
             VALUES (:name, :email, :username, :password_hash, :role, 'active', NOW())
@@ -42,9 +51,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       'role' => $role
     ]);
 
-    echo "Registration successful!";
+    echo json_encode([
+      'success' => true,
+      'message' => 'Registration successful.'
+    ]);
   } catch (PDOException $e) {
     error_log("Registration Error: " . $e->getMessage());
-    echo "An error occurred. Please try again later.";
+    echo json_encode([
+      'success' => false,
+      'message' => 'An error occurred. Please try again later.'
+    ]);
   }
+} else {
+  // Method not allowed
+  http_response_code(405);
+  echo json_encode([
+    'success' => false,
+    'message' => 'Method Not Allowed'
+  ]);
 }
+
+header("Location: index.php");
+exit;
