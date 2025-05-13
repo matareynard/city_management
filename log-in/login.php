@@ -2,7 +2,7 @@
 session_start();
 require_once '../database/database.php'; // Adjust path if needed
 
-$error = ''; // Default
+$error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = trim($_POST['username']);
@@ -16,38 +16,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $conn = $db->connect();
 
         try {
-            $stmt = $conn->prepare("SELECT * FROM users WHERE username = :username AND role = :role AND status = 'active' LIMIT 1");
-            $stmt->execute([
-                'username' => $username,
-                'role' => $role
-            ]);
+            $checkStmt = $conn->query("SELECT COUNT(*) as count FROM users");
+            $userCount = $checkStmt->fetch()['count'];
 
-            $user = $stmt->fetch();
-
-            if (!$user) {
-                // No matching user found
-                $error = 'No account found with the provided username and role.';
-            } elseif (!password_verify($password, $user['password_hash'])) {
-                // Password incorrect
-                $error = 'Incorrect password.';
+            if ($userCount == 0) {
+                $error = "No user accounts are registered in the system.";
+                error_log("Login attempt failed: users table is empty.");
             } else {
-                // Login successful
-                $_SESSION['user_id'] = $user['id'];
-                $_SESSION['username'] = $user['username'];
-                $_SESSION['role'] = $user['role'];
+                $stmt = $conn->prepare("SELECT * FROM users WHERE username = :username AND role = :role AND status = 'active' LIMIT 1");
+                $stmt->execute([
+                    'username' => $username,
+                    'role' => $role
+                ]);
 
-                // Redirect based on role
-                $baseUrl = 'http://' . $_SERVER['HTTP_HOST'] . '/city_management';
+                $user = $stmt->fetch();
 
-                switch ($role) {
-                    case 'admin':
-                        header("Location: $baseUrl/admin/admindashboard.html");
-                        exit;
-                    case 'city_official':
-                    case 'barangay_official':
-                    default:
-                        header("Location: $baseUrl/log-in/index.php");
-                        exit;
+                if (!$user) {
+                    error_log("Login failed: No user found for username '{$username}' with role '{$role}'.");
+                    $error = 'No account found with the provided username and role.';
+                } elseif (!password_verify($password, $user['password_hash'])) {
+                    error_log("Login failed: Incorrect password for username '{$username}'.");
+                    $error = 'Incorrect password.';
+                } else {
+                    $_SESSION['user_id'] = $user['id'];
+                    $_SESSION['username'] = $user['username'];
+                    $_SESSION['role'] = $user['role'];
+
+                    $baseUrl = 'http://' . $_SERVER['HTTP_HOST'] . '/city_management';
+
+                    switch ($role) {
+                        case 'admin':
+                            header("Location: $baseUrl/admin/admindashboard.html");
+                            exit;
+                        case 'city_official':
+                        case 'barangay_official':
+                        default:
+                            header("Location: $baseUrl/log-in/index.php");
+                            exit;
+                    }
                 }
             }
         } catch (PDOException $e) {
