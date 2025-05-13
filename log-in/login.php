@@ -10,10 +10,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($username) || empty($password) || empty($role)) {
         die('Please fill in all fields.');
     }
-    echo "Username: $username <br>";
-    echo "Password: $password <br>";
-    echo "Role: $role <br>";
-
+    $userFound = false;
+    if (!$userFound) {
+        $error = 'Invalid username, password, or role.';
+    }
     $db = new Database();
     $conn = $db->connect();
 
@@ -35,21 +35,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Redirect based on role
             switch ($role) {
                 case 'admin':
-                    header('Location: admindashboard.html');
-                    break;
+                    $baseUrl = 'http://' . $_SERVER['HTTP_HOST'] . '/city_management';
+                    header("Location: $baseUrl/admin/admindashboard.html");
+                    exit;
                 case 'city_official':
-                    header('Location: cityofficial.html');
-                    break;
+
                 case 'barangay_official':
-                    header('Location: barangayofficial.html');
-                    break;
+
                 default:
-                    echo "Unknown role.";
+                    $baseUrl = 'http://' . $_SERVER['HTTP_HOST'] . '/city_management';
+                    header("Location: $baseUrl/log-in/index.php");
                     exit;
             }
-            exit;
-        } else {
-            echo "Invalid credentials or role.";
         }
     } catch (PDOException $e) {
         error_log("Login Error: " . $e->getMessage());

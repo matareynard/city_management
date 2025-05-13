@@ -340,3 +340,13 @@ button:hover {
     flex-direction: column;
   }
 }
+
+.error-message {
+    color: #b20000;
+    background-color: #ffe5e5;
+    border: 1px solid #b20000;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+}

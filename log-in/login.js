@@ -7,3 +7,10 @@ registerLink.addEventListener("click", (e) => {
   registerModal.classList.add("active");
   document.body.style.overflow = "hidden";
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+        const errorBox = document.querySelector('.error-message');
+        if (errorBox) errorBox.style.display = 'none';
+    }, 4000);
+});

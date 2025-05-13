@@ -15,6 +15,9 @@
 
 <body>
   <div class="wrapper">
+    <?php if (isset($error)): ?>
+      <div class="error-message"><?php echo $error; ?></div>
+    <?php endif; ?>
     <form action="login.php" method="POST">
       <h2>ADMIN</h2>
       <input type="hidden" name="role" value="admin">
@@ -22,12 +25,10 @@
         <input type="text" name="username" required />
         <label>Enter your username</label>
       </div>
-
       <div class="input-field">
         <input type="password" name="password" required />
         <label>Enter your password</label>
       </div>
-
       <div class="forget">
         <label for="remember">
           <input type="checkbox" id="remember" />
@@ -35,9 +36,7 @@
         </label>
         <a href="#">Forgot password?</a>
       </div>
-
       <button type="submit">Log In</button>
-
       <div class="register">
         <p>
           Don't have an account?
