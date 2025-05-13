@@ -15,9 +15,10 @@
 
 <body>
   <div class="wrapper">
-    <?php if (isset($error)): ?>
-      <div class="error-message"><?php echo $error; ?></div>
+    <?php if (!empty($error)): ?>
+      <div class="error-message"><?= htmlspecialchars($error) ?></div>
     <?php endif; ?>
+
     <form action="login.php" method="POST">
       <h2>ADMIN</h2>
       <input type="hidden" name="role" value="admin">
